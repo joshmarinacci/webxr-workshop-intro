@@ -1,0 +1,19 @@
+<html>
+<head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<body>
+<a-scene>
+    <a-light type="ambient" color="#445451"></a-light>
+
+    <a-entity light="type:directional; castShadow:true; intensity:0.4" position="-10 10 4"></a-entity>
+
+    <!--<a-light type="directional" intensity="0.4" position="-10 10 4" castShadow="true"></a-light>-->
+
+    <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow="cast:true"></a-box>
+
+    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow="receive:true"></a-plane>
+
+</a-scene>
+</body>
+</html>
