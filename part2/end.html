@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+
+</head>
+<body>
+<script>
+    AFRAME.registerComponent('follow', {
+        schema:{
+            target: {type:'selector'}
+        },
+        tick: function() {
+            // convert target to world
+            var targetPos = this.data.target.object3D.getWorldPosition();
+            // convert world to local
+            var localPos = this.el.object3D.parent.worldToLocal(targetPos);
+            // look at the target
+            this.el.object3D.lookAt(localPos)
+        }
+    })
+
+    AFRAME.registerComponent('distance', {
+        schema:{
+            target: {type:'selector'},
+            distance: {type:'number'}
+        },
+        init: function() {
+            this.inside = false;
+        },
+        tick: function() {
+            // convert target to world
+            var targetPos = this.data.target.object3D.getWorldPosition();
+            // convert world to local
+            var localPos = this.el.object3D.parent.worldToLocal(targetPos);
+            //calcualte the distance
+            var dist = localPos.distanceTo(this.el.object3D.position);
+            //fire events when going inside or outside the radius
+            if(dist < this.data.distance && !this.inside) {
+                this.inside = true;
+                this.el.emit('distance-entered',{},false);
+            }
+            if(dist > this.data.distance && this.inside) {
+                this.inside = false;
+                this.el.emit('distance-exited',{},false);
+            }
+        }
+    })
+</script>
+
+<!--
+
+Detect distance of viewer to anchored object.
+When close, trigger a particle system to erupt (use component)
+Put in robot head & torso from Social MR  (shows loading complex objects)
+Make robot turn to watch you
+
+-->
+
+<a-scene>
+    <a-box  id="box"  position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" follow="target:#mycamera" distance="target:#mycamera; distance:2"></a-box>
+    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+    <a-sky   color="#ECECEC"></a-sky>
+    <a-entity id='mycamera' camera="userHeight:1.6" look-controls wasd-controls></a-entity>
+</a-scene>
+
+<script>
+    var box = document.querySelector('#box');
+    box.addEventListener('distance-entered',()=>{
+        console.log("really too close");
+    })
+    box.addEventListener('distance-exited',()=>{
+        console.log("backed up. reset now");
+    })
+</script>
+</body>
+</html>
