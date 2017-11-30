@@ -51,23 +51,13 @@
     })
 </script>
 
-<!--
-
-Detect distance of viewer to anchored object.
-When close, trigger a particle system to erupt (use component)
-Put in robot head & torso from Social MR  (shows loading complex objects)
-Make robot turn to watch you
-
-
--->
 
 <a-scene>
-    <a-box  id="box"
-            position="0 1 -2" color="blue"
-            depth="1" height="1" width="1"
-            follow="target:#mycamera"
-            distance="target:#mycamera; distance:2"
-    ></a-box>
+    <a-entity id='box' gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
+                  position="0 1 -2"
+                  follow="target:#mycamera"
+                  distance="target:#mycamera; distance:2"
+    ></a-entity>
     <a-entity position="0 1 -2" particle-system="maxAge:1; type:2; velocityValue: 0 10 0; duration: 0; particleCount:100"></a-entity>
 
     <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
