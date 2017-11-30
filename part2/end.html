@@ -5,69 +5,28 @@
     <title>Title</title>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
-
+    <!-- make an object turn to follow another object -->
+    <script src="../resources/follow.js"></script>
+    <!-- fire events when entering and exiting proximity of an object -->
+    <script src="../resources/proximity.js"></script>
 </head>
 <body>
-<script>
-    AFRAME.registerComponent('follow', {
-        schema:{
-            target: {type:'selector'}
-        },
-        tick: function() {
-            // convert target to world
-            var targetPos = this.data.target.object3D.getWorldPosition();
-            // convert world to local
-            var localPos = this.el.object3D.parent.worldToLocal(targetPos);
-            // look at the target
-            this.el.object3D.lookAt(localPos)
-        }
-    })
-
-    AFRAME.registerComponent('distance', {
-        schema:{
-            target: {type:'selector'},
-            distance: {type:'number'}
-        },
-        init: function() {
-            this.inside = false;
-        },
-        tick: function() {
-            // convert target to world
-            var targetPos = this.data.target.object3D.getWorldPosition();
-            // convert world to local
-            var localPos = this.el.object3D.parent.worldToLocal(targetPos);
-            //calcualte the distance
-            var dist = localPos.distanceTo(this.el.object3D.position);
-            //fire events when going inside or outside the radius
-            if(dist < this.data.distance && !this.inside) {
-                this.inside = true;
-                this.el.emit('distance-entered',{},false);
-            }
-            if(dist > this.data.distance && this.inside) {
-                this.inside = false;
-                this.el.emit('distance-exited',{},false);
-            }
-        }
-    })
-</script>
-
 
 <a-scene>
-
     <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
     <a-sky   color="black"></a-sky>
-
-    <a-entity id='mycamera' camera="userHeight:1.6" look-controls wasd-controls></a-entity>
-
-    <a-entity id='box'
+    <a-entity id='mycamera'
+              camera="userHeight:1.6"
+              look-controls wasd-controls></a-entity>
+    <a-entity id='head'
               gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
               position="0 1 -2"
               follow="target:#mycamera"
-              distance="target:#mycamera; distance:2"
+              proximity="target:#mycamera; distance:2"
     ></a-entity>
     <a-entity
             position="0 1 -2"
-            particle-system="maxAge:1; type:2; velocityValue: 0 10 0; duration: 0; particleCount:100"
+            particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0;"
     ></a-entity>
 
 </a-scene>
@@ -82,13 +41,10 @@
         particleEntity.components['particle-system'].particleGroup.emitters[0].enable();
     }
 
-    const box = document.querySelector('#box');
-    box.addEventListener('distance-entered',()=> startParticles());
-    box.addEventListener('distance-exited',()=> stopParticles());
-
-    document.querySelector('a-scene').addEventListener('loaded', () => {
-        stopParticles()
-    })
+    const head = document.querySelector('#head');
+    head.addEventListener('enter',()=> startParticles());
+    head.addEventListener('exit',()=> stopParticles());
+    document.querySelector('a-scene').addEventListener('loaded', () =>  stopParticles())
 
 </script>
 </body>
