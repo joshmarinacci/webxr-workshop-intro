@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <script>
+        AFRAME.registerComponent('mouse-click', {
+            init: function () {
+                if (!this.el.isScene) {
+                    console.warn('mouse click component can only be applied to <a-scene>');
+                    return;
+                }
+                this.mouse = {};
+                this.scene = this.el.sceneEl;
+                this.scene.addEventListener('mousedown',(event) => {
+                    this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                    this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+                    const el = document.createElement('a-entity');
+                    el.setAttribute('geometry', {
+                        primitive: 'box',
+                        width: 0.2,
+                        height: 0.1,
+                        depth: 0.2
+                    });
+                    el.setAttribute('material', {
+                        shader: 'standard',
+                        color: '#ffcc00'
+                    });
+                    el.setAttribute('position', {
+                        x:this.mouse.x,
+                        y:this.mouse.y+1.5,
+                        z:-2
+                    });
+
+                    // delay adding dynamic-body
+                    // due to bug #72 in the physics engine: https://github.com/donmccurdy/aframe-physics-system/issues/72
+                     setTimeout(() => el.setAttribute('dynamic-body', ''))
+                    this.scene.appendChild(el)
+                })
+            }
+        });
+    </script>
+</head>
+<body>
+
+<a-scene mouse-click physics="debug:true; restitution:5; friction: 1">
+
+    <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" static-body></a-plane>
+    <a-sky   color="black"></a-sky>
+
+    <a-entity id='mycamera' camera="userHeight:1.6" look-controls wasd-controls></a-entity>
+
+</a-scene>
+
+<script>
+    document.querySelector('a-scene').addEventListener('loaded', () => {
+        console.log('ready to go');
+    })
+</script>
+
+
+</body>
+</html>

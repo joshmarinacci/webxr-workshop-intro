@@ -7,4 +7,6 @@ switch to xr-frame
 load gltf model and point at the camera
 add distance detection event between model and camera using center and radius
 add particles
+
+
 add physics to drop cubes
