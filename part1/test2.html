@@ -4,17 +4,16 @@
     <title>A-Frame / WebXR / AR / Hit Test</title>
     <meta name="description" content="Hello, WebVR! - A-Frame">
     <script>window.debug = true;</script>
-    <script src="https://rawgit.com/blairmacintyre/aframe-xr/master/vendor/aframe-v0.7.1.js"></script>
+    <script src="https://rawgit.com/arturitu/aframe-xr/master/vendor/aframe-v0.7.1.js"></script>
     <script src="https://rawgit.com/arturitu/aframe-xr/master/dist/aframe-xr.js"></script>
-    <!--<script src="https://aframe.argonjs.io/resources/js/aframe-look-at-component.js"></script>-->
-    <!--<script src="https://rawgit.com/blairmacintyre/aframe-xr/master/examples/lib/hit-test.js"></script>-->
+    <script src="https://rawgit.com/arturitu/aframe-xr/master/examples/lib/hit-test.js"></script>
+    <script src="https://aframe.argonjs.io/resources/js/aframe-look-at-component.js"></script>
 </head>
 <body>
-<a-scene>
+<a-scene hit-test>
 </a-scene>
 
 <script>
-    /*
     var scene = AFRAME.scenes[0];
 
     var newObject = function(data) {
@@ -46,7 +45,6 @@
     }
 
     scene.addEventListener('newAnchoredEntity', newObject);
-    */
 </script>
 </body>
 </html>
