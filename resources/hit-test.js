@@ -24,6 +24,7 @@ AFRAME.registerComponent('hit-test', {
         title.style.textAlign = 'center';
         title.innerHTML = 'Find anchors by searching on tap events.';
         document.body.appendChild(title);
+        this.title_dom = title;
 
         this.alertMessage = document.createElement('div');
         this.alertMessage.style.position = 'absolute';
@@ -35,6 +36,10 @@ AFRAME.registerComponent('hit-test', {
         this.alertMessage.style.width = '100%';
         this.alertMessage.style.textAlign = 'center';
         document.body.appendChild(this.alertMessage);
+    },
+    remove: function() {
+        document.body.removeChild(this.title_dom)
+        document.body.removeChild(this.alertMessage)
     },
     bindMethods: function (){
         this.xrInitialized = this.xrInitialized.bind(this);
@@ -99,7 +104,7 @@ AFRAME.registerComponent('hit-test', {
 
                     // will set the position and orientation based on the anchorOffset attached to the entity
                     entity.setAttribute('xranchor', {});
-                    entity.anchorOffset = anchorOffset;
+                    entity.components.xranchor.anchorOffset = anchorOffset;
 
                     self.el.emit('newAnchoredEntity', entity);
                 }
