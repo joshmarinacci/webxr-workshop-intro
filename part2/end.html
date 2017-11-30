@@ -53,17 +53,23 @@
 
 
 <a-scene>
-    <a-entity id='box' gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
-                  position="0 1 -2"
-                  follow="target:#mycamera"
-                  distance="target:#mycamera; distance:2"
-    ></a-entity>
-    <a-entity position="0 1 -2" particle-system="maxAge:1; type:2; velocityValue: 0 10 0; duration: 0; particleCount:100"></a-entity>
 
     <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
     <a-sky   color="black"></a-sky>
 
     <a-entity id='mycamera' camera="userHeight:1.6" look-controls wasd-controls></a-entity>
+
+    <a-entity id='box'
+              gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
+              position="0 1 -2"
+              follow="target:#mycamera"
+              distance="target:#mycamera; distance:2"
+    ></a-entity>
+    <a-entity
+            position="0 1 -2"
+            particle-system="maxAge:1; type:2; velocityValue: 0 10 0; duration: 0; particleCount:100"
+    ></a-entity>
+
 </a-scene>
 
 <script>
