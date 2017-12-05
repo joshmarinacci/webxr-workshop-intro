@@ -26,7 +26,7 @@ contents:
 ```
 
 Load this in the viewer app on your mobile device.  You should see a
-scene containing a box, a plane, with a nice background.
+scene containing a box and a plane, with a nice background.
 
 # A short introduction to a-frame
 
@@ -65,6 +65,8 @@ code imports.
 
 Since we want the camera view of reality to be visible, remove the sky and 
 plane elements from the scene. This leaves only the cube.
+
+# anchoring the cube
 
 Typically in AR scenes we want some object to be anchored to the real world. Detecting 
 the real world requires time and user interaction to pick where the anchor should be.
@@ -152,6 +154,7 @@ The final event handler looks like this:
 </script>
 ```
 
+# adding custom lights
 
 There is one final detail. To make the scene look nicer we can add some light
 with shadows. First add an ambient light to brighten up the scene, then
