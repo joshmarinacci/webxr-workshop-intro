@@ -1,7 +1,9 @@
+# Part 1: setting up WebXR with A-Frame
+
 In part 1 of this workshop you will modify a standard A-Frame
 scene to make it work in Augmented Reality.
 
-# Create initial scene
+## Create initial scene
 
 If you haven't already, check out the code for this workshop on github, or download
 a copy. You should also have the XRViewer iOS app for ARCoreOnARCore Android app 
@@ -28,7 +30,7 @@ contents:
 Load this in the viewer app on your mobile device.  You should see a
 scene containing a box and a plane, with a nice background.
 
-# A short introduction to a-frame
+## A short introduction to a-frame
 
 Let's walk through the code. The above is a webpage which loads version 0.7.0 of 
 the A-Frame library from aframe.io.  A-Frame uses special non-HTML elements that 
@@ -48,7 +50,7 @@ some custom components later on in this workshop.
 
  
 
-# importing WebXR support
+## importing WebXR support
 
 WebXR is a new (experimental) spec for Augmented Reality. We have created a special 
 patch to A-Frame to support it.  Add the patch by replacing the script tag at the top
@@ -66,7 +68,7 @@ code imports.
 Since we want the camera view of reality to be visible, remove the sky and 
 plane elements from the scene. This leaves only the cube.
 
-# anchoring the cube
+## anchoring the cube
 
 Typically in AR scenes we want some object to be anchored to the real world. Detecting 
 the real world requires time and user interaction to pick where the anchor should be.
@@ -154,7 +156,7 @@ The final event handler looks like this:
 </script>
 ```
 
-# adding custom lights
+## adding custom lights
 
 There is one final detail. To make the scene look nicer we can add some light
 with shadows. First add an ambient light to brighten up the scene, then
@@ -171,7 +173,3 @@ add a directional light to cast a shadow
 Now the cube will be brighter on the left side than the right.
 
  
-
-
-
-

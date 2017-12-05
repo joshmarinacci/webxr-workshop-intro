@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>A-Frame / WebXR / AR / Hit Test</title>
+    <meta name="description" content="Hello, WebVR! - A-Frame">
+    <script>window.debug = true;</script>
+    <script src="https://rawgit.com/blairmacintyre/aframe-xr/master/vendor/aframe-v0.7.1.js"></script>
+    <script src="https://rawgit.com/arturitu/aframe-xr/master/dist/aframe-xr.js"></script>
+    <script src="../resources/hit-test.js"></script>
 </head>
 <body>
+<a-scene hit-test>
+    <a-light type="ambient" color="#445451"></a-light>
+    <a-entity light="type:directional; castShadow:true; intensity:0.4" position="-10 10 4"></a-entity>
+    <a-box id='obj'
+           position="0 0 0"
+           rotation="0 0 0"
+           width="0.2"
+           height="0.2"
+           depth="0.2"
+           color="red"
+           visible="false"
+           shadow="cast:true"></a-box>
+</a-scene>
+<script>
+    const scene = AFRAME.scenes[0]
 
+    scene.addEventListener('newAnchoredEntity', (e) => {
+        const floor = e.detail
+        const obj = document.querySelector('#obj')
+        obj.setAttribute('visible','true')
+        scene.removeChild(obj)
+        floor.appendChild(obj)
+        scene.appendChild(floor)
+        scene.removeAttribute('hit-test')
+    });
+</script>
 </body>
 </html>

@@ -23,6 +23,7 @@
               position="0 1 -2"
               follow="target:#mycamera"
               proximity="target:#mycamera; distance:2"
+              visible="false"
     ></a-entity>
     <a-entity
             position="0 1 -2"
@@ -32,6 +33,18 @@
 </a-scene>
 
 <script>
+    const scene = AFRAME.scenes[0]
+
+    scene.addEventListener('newAnchoredEntity', (e) => {
+        const floor = e.detail
+        const obj = document.querySelector('#head')
+        obj.setAttribute('visible','true')
+        scene.removeChild(obj)
+        floor.appendChild(obj)
+        scene.appendChild(floor)
+        scene.removeAttribute('hit-test')
+    });
+
     function stopParticles() {
         const particleEntity = document.querySelector('[particle-system]');
         particleEntity.components['particle-system'].particleGroup.emitters[0].disable();
