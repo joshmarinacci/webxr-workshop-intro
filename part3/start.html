@@ -9,14 +9,11 @@
     <script src="../resources/follow.js"></script>
     <!-- fire events when entering and exiting proximity of an object -->
     <script src="../resources/proximity.js"></script>
-    <!-- import the physics component -->
-    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
-    <!-- import the mouse click component -->
-    <script src="../resources/mouse-click.js"></script>
 </head>
 <body>
 
-<a-scene mouse-click physics="debug:true; restitution:5; friction: 1">
+<a-scene>
+    <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
     <a-entity id='mycamera'
               camera="userHeight:1.6"
               look-controls wasd-controls></a-entity>
@@ -32,7 +29,6 @@
             particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0;"
     ></a-entity>
 
-    <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" static-body></a-plane>
 </a-scene>
 
 <script>
@@ -61,31 +57,7 @@
     head.addEventListener('enter',()=> startParticles());
     head.addEventListener('exit',()=> stopParticles());
     document.querySelector('a-scene').addEventListener('loaded', () =>  stopParticles())
-    document.querySelector('a-scene').addEventListener('mouse-click',(e)=>{
-        const el = document.createElement('a-entity');
-        el.setAttribute('geometry', {
-            primitive: 'box',
-            width: 0.2,
-            height: 0.1,
-            depth: 0.2
-        });
-        el.setAttribute('material', {
-            shader: 'standard',
-            color: '#ffcc00'
-        });
-        el.setAttribute('position', {
-            x:e.detail.x,
-            y:e.detail.y+1.5,
-            z:-2
-        });
 
-        // delay adding dynamic-body
-        // due to bug #72 in the physics engine: https://github.com/donmccurdy/aframe-physics-system/issues/72
-        setTimeout(() => el.setAttribute('dynamic-body', ''))
-        e.target.appendChild(el)
-    })
 </script>
-
-
 </body>
 </html>
