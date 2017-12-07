@@ -19,8 +19,8 @@ To load a GLTF file we first need a place to load it into. Replace the `a-box` e
 page with `a-entity` and set the id to `head`, the position to `0 1 -2`, and visibilty off.
 
 ```html
-    <a-entity id='head'
-              position="0 1 -2"
+    <a-entity id="head"
+              position="0 0 0"
               visible="false"
     ></a-entity>
 ```
@@ -31,14 +31,14 @@ give it one. Load the model by adding a `gltf-model` component which sets the sr
 to `url(../resources/Bot_Head_mesh.glb)`
 
 ```html
-    <a-entity id='head'
+    <a-entity id="head"
               gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
-              position="0 1 -2"
+              position="0 0 0"
               visible="false"
      ></a-entity>
 ```
 
-Also remember to update the event handler to look for #head instead of #obj. You should 
+Also remember to update the event handler to look for `#head` instead of `#obj`. You should 
 now be able to load this page and see the robot head in front of you.
 
 # Auto Follow
@@ -84,20 +84,23 @@ the target.
 Now we can use this new `follow` component by adding one more line to the entity definition.
 
 ```html
-    <a-entity id='head'
+    <a-entity id="head"
               gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
-              position="0 1 -2"
+              position="0 0 0"
               visible="false"
               follow="target:#mycamera"
     ></a-entity>
+```
 
+
+Since the component needs a target we must manually define a camera instead of using
+the default one created by a-frame. (is there a way to avoid this?)
+
+```html
     <a-entity id='mycamera'
               camera="userHeight:1.6"
               look-controls wasd-controls></a-entity>
 ```
-
-Since the component needs a target we must manually define a camera instead of using
-the default one created by a-frame. (is there a way to avoid this?)
 
 # Particle Effect
 
@@ -113,12 +116,12 @@ Now create a new particle system entity in the scene like this:
 
 ```html
 <a-entity
-            position="0 1 -2"
+            position="0 0 0"
             particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0;"
     ></a-entity>
 ```
 
-This will position the particle system at `0 1 -2`, the same place as the
+This will position the particle system at `0 0 0`, the same place as the
 robot head. Feel free to tweak the parameters to adjust the effect to your liking. The
 particle component docs have lots of options. *link*
 

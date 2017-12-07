@@ -19,7 +19,7 @@ contents:
 </head>
 <body>
 <a-scene>
-    <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+    <a-box position="-1 0.5 -1" rotation="0 45 0" color="#4CC3D9"></a-box>
     <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
     <a-sky color="#ECECEC"></a-sky>
 </a-scene>
@@ -53,7 +53,7 @@ some custom components later on in this workshop.
 ## importing WebXR support
 
 WebXR is a new (experimental) spec for Augmented Reality. We have created a special 
-patch to A-Frame to support it.  Add the patch by replacing the script tag at the top
+patch to A-Frame to support it.  Add the patch by replacing the `script` tag at the top
 of your file with these: 
 
 ```html
@@ -75,13 +75,14 @@ the real world requires time and user interaction to pick where the anchor shoul
 This is implemented by the hit-test component, which asks the user to tap where the
 anchor should go.  
 
-Import the hit-test component by including this script at the top (but after the other scripts).
+Import the `hit-test` component by including this script at the top (but after the other scripts).
+Depending on where you are building this page, you may need to change the path to `hit-test.js`.
 
 ```html
     <script src="../resources/hit-test.js"></script>
 ```
 
-Apply the hit-test component to the scene by changing a-scene to look like this:
+Apply the `hit-test` component to the scene by changing `a-scene` to look like this:
 
 ```html
 <a-scene hit-test>
@@ -108,7 +109,7 @@ javascript:
 This adds an event handler to the scene. The hit-test component will fire
 a `newAnchoredEntity` event once the user has chosen an anchor spot. This event handler
 will listen for the event, remove the box from the scene, then insert the box
-again as a child of the floor object, then add the floor to the scene. It also
+again as a child of the floor object, then add the floor to the scene. The code also
 removes the hit-test component so that this anchor choosing procedure is only performed
 once at application start.  
 
@@ -116,9 +117,9 @@ Note that this code uses the CSS selector `#obj` to find the box.  This selector
 returns an element in the page with an id of obj.  Add `id="obj"` to the `a-box` so
 that the code can find it.
 
-Now the box should move to the floor once the user chooses an anchor.  This works but
-can still be confusing for the user because the box jumps from its default position
-to the floor.  To fix this, make the box start off invisible by adding the
+Now the box should move to the floor once the user chooses an anchor.  This does work, but it has
+a flaw. The box jumps from its default position to the floor, which is visually confusing.
+To fix this, make the box start off invisible by adding the
 attribute `visible="false"`.  Then make the box visible once the anchor has been found
 in the event handler with `obj.setAttribute('visible','true')`.  The final
 box code looks like this:
@@ -136,7 +137,9 @@ box code looks like this:
 ```
 
 I reformatted the HTML to make it easier to see each component.  I also changed
-the color of the box to red and changed the width, height, and depth to be smaller.
+the color of the box to red and changed the width, height, and depth to be smaller, and
+reset the rotation to 0 0 0. I also moved the position to 0,0,0 since it will be inside 
+of the floor object, thus making it look like it is really on the floor.
 
 The final event handler looks like this:
 
@@ -172,4 +175,4 @@ add a directional light to cast a shadow
 
 Now the cube will be brighter on the left side than the right.
 
- 
+When you are done 
