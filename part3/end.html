@@ -1,67 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
-    <!-- make an object turn to follow another object -->
+    <script>window.debug = true;</script>
+    <script src="https://rawgit.com/blairmacintyre/aframe-xr/master/vendor/aframe-v0.7.1.js"></script>
+    <script src="https://rawgit.com/arturitu/aframe-xr/master/dist/aframe-xr.js"></script>
+    <script src="../resources/hit-test.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.11/dist/aframe-particle-system-component.min.js"></script>
     <script src="../resources/follow.js"></script>
-    <!-- fire events when entering and exiting proximity of an object -->
     <script src="../resources/proximity.js"></script>
-    <!-- import the physics component -->
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
-    <!-- import the mouse click component -->
-    <script src="../resources/mouse-click.js"></script>
+    <script src="../resources/tap-event.js"></script>
 </head>
 <body>
+<a-scene hit-test tap-event physics="debug:true; restitution:5; friction:1">
+    <a-entity id="robot"
+              visible="false"
+              proximity="target:#mycamera; distance:1.5"
+    >
+        <a-entity id="head"
+                  position="0 0.6 0.1"
+                  scale="2 2 2"
+                  gltf-model="src:url(https://cdn.glitch.com/a56922f6-eed8-463f-83ab-cbfbe3b35da3%2FBot_Head_Mesh.glb?1512588906577)"
+                  follow="target:#mycamera"
+                  static-body="shape:box;"
+        ></a-entity>
 
-<a-scene mouse-click physics="debug:true; restitution:5; friction: 1">
-    <a-entity id='mycamera'
+        <a-entity id="body"
+                  position="0 0.3 0"
+                  scale="2 2 2"
+                  gltf-model="src:url(https://cdn.glitch.com/a56922f6-eed8-463f-83ab-cbfbe3b35da3%2FBot_Body_Mesh.glb?1512591235720)"
+                  static-body="shape:box;"
+        ></a-entity>
+
+        <a-entity
+                id="stars"
+                position="0 0.7 0"
+                particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0; enabled:false;"
+        ></a-entity>
+
+        <a-plane position="0 -2 0" rotation="-90 0 0" width="4" height="4" static-body></a-plane>
+
+    </a-entity>
+
+    <a-entity id="mycamera"
               camera="userHeight:1.6"
               look-controls wasd-controls></a-entity>
-    <a-entity id='head'
-              gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
-              position="0 1 -2"
-              follow="target:#mycamera"
-              proximity="target:#mycamera; distance:2"
-              visible="false"
-    ></a-entity>
-    <a-entity
-            position="0 1 -2"
-            particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0;"
-    ></a-entity>
 
-    <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" static-body></a-plane>
+    <a-light type="ambient" color="#445451"></a-light>
+    <a-entity
+            light="type:directional; castShadow:true; intensity:0.4"
+            position="-10 10 4"
+    ></a-entity>
 </a-scene>
+
+
 
 <script>
     const scene = AFRAME.scenes[0]
 
     scene.addEventListener('newAnchoredEntity', (e) => {
         const floor = e.detail
-        const obj = document.querySelector('#head')
+        const obj = document.querySelector('#robot')
         obj.setAttribute('visible','true')
         scene.removeChild(obj)
         floor.appendChild(obj)
         scene.appendChild(floor)
         scene.removeAttribute('hit-test')
+        scene.addEventListener('tap',handleTap)
     });
 
-    function stopParticles() {
-        const particleEntity = document.querySelector('[particle-system]');
-        particleEntity.components['particle-system'].particleGroup.emitters[0].disable();
-    }
-    function startParticles() {
-        const particleEntity = document.querySelector('[particle-system]');
-        particleEntity.components['particle-system'].particleGroup.emitters[0].enable();
-    }
 
-    const head = document.querySelector('#head');
-    head.addEventListener('enter',()=> startParticles());
-    head.addEventListener('exit',()=> stopParticles());
-    document.querySelector('a-scene').addEventListener('loaded', () =>  stopParticles())
-    document.querySelector('a-scene').addEventListener('mouse-click',(e)=>{
+
+    const robot = document.querySelector('#robot');
+    const stars = document.querySelector('#stars');
+    robot.addEventListener('enter',()=> stars.setAttribute("particle-system","enabled",true));
+    robot.addEventListener('exit', ()=> stars.setAttribute("particle-system","enabled",false));
+
+    function handleTap(e) {
         const el = document.createElement('a-entity');
         el.setAttribute('geometry', {
             primitive: 'box',
@@ -76,16 +91,15 @@
         el.setAttribute('position', {
             x:e.detail.x,
             y:e.detail.y+1.5,
-            z:-2
+            z:0
         });
 
         // delay adding dynamic-body
         // due to bug #72 in the physics engine: https://github.com/donmccurdy/aframe-physics-system/issues/72
         setTimeout(() => el.setAttribute('dynamic-body', ''))
-        e.target.appendChild(el)
-    })
+        robot.appendChild(el)
+    }
+
 </script>
-
-
 </body>
 </html>
