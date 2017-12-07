@@ -175,4 +175,4 @@ add a directional light to cast a shadow
 
 Now the cube will be brighter on the left side than the right.
 
-When you are done 
+When you are done you can continue to [part 2](../part2/instructions.md)

@@ -12,11 +12,12 @@ this step we will use such a model.
 
 GLTF stands for ??. It is a cross-platform and cross-vendor format for sharing 3D models. GLTF
 files are essentially JSON files with a set of additional resources for textures, animations,
-and 3D geometry. We have provided a robot head model in the `resources/Bot_Head_Mesh.glb` file.
+and 3D geometry. We have provided robot head and body models in the `resources` directory file.
+(it's in the `assets` list in the Glitch)
 A GLB file is the binary form of GLTF, which is optimized for loading over the internet.
 
 To load a GLTF file we first need a place to load it into. Replace the `a-box` element from your
-page with `a-entity` and set the id to `head`, the position to `0 1 -2`, and visibilty off.
+page with `a-entity` and set the id to `head`, the position to `0 0 0`, and visibility turned off.
 
 ```html
     <a-entity id="head"
@@ -25,7 +26,7 @@ page with `a-entity` and set the id to `head`, the position to `0 1 -2`, and vis
     ></a-entity>
 ```
 
-You can think of a-entity as the generic version of a box. It is simply an object in 3D space which
+You can think of `a-entity` as the generic version of a box. It is simply an object in 3D space which
 can have any geometry, appearance, or behavior. By itself an entity has no appearance, so let's
 give it one. Load the model by adding a `gltf-model` component which sets the src 
 to `url(../resources/Bot_Head_mesh.glb)`
@@ -38,8 +39,29 @@ to `url(../resources/Bot_Head_mesh.glb)`
      ></a-entity>
 ```
 
-Also remember to update the event handler to look for `#head` instead of `#obj`. You should 
-now be able to load this page and see the robot head in front of you.
+Since we want both the head and body of the robot, create a robot entity to hold both parts. In the code below
+I'm loading the bot parts from a glitch instead of the local repo.  I also adjusted the vertical position
+of the head so it appears above the body, and the body floats above the ground.
+
+```html
+      <a-entity id="robot" 
+                visible="false"
+                >
+        <a-entity id="head"
+                  position="0 0.6 0.1"
+                  scale="2 2 2"
+                  gltf-model="src:url(https://cdn.glitch.com/a56922f6-eed8-463f-83ab-cbfbe3b35da3%2FBot_Head_Mesh.glb?1512588906577)"
+                  ></a-entity>      
+        
+        <a-entity id="body"
+                  position="0 0.3 0"
+                  scale="2 2 2"
+                  gltf-model="src:url(https://cdn.glitch.com/a56922f6-eed8-463f-83ab-cbfbe3b35da3%2FBot_Body_Mesh.glb?1512591235720)"
+                  ></a-entity>      
+```
+
+Also remember to update the event handler to look for `#robot` instead of `#obj`. You should 
+now be able to load this page and see the robot's head and body in front of you.
 
 # Auto Follow
 
@@ -81,14 +103,12 @@ converts between coordinate systems, then points the main object at the target. 
 this function will be called on every frame the object will always turn to follow
 the target.
 
-Now we can use this new `follow` component by adding one more line to the entity definition.
+Now we can use this new `follow` component by adding one more line to the head definition.
 
 ```html
     <a-entity id="head"
-              gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
-              position="0 0 0"
-              visible="false"
               follow="target:#mycamera"
+              ....
     ></a-entity>
 ```
 
@@ -109,21 +129,25 @@ this we need a particle effect. Add the following line to the head of your page,
 the last script tag. This will import a particle system.
 
 ```html
-    <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.11/dist/aframe-particle-system-component.min.js"></script>
 ```
 
-Now create a new particle system entity in the scene like this:
+Now create a new particle system entity inside the robot entity like this:
 
 ```html
-<a-entity
-            position="0 0 0"
-            particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0;"
-    ></a-entity>
+      <a-entity id="robot" 
+        ....
+        <a-entity
+                id="stars"
+                position="0 0.7 0"
+                particle-system="maxAge:1; velocityValue: 0 10 0; duration: 0; enabled:false;"
+        ></a-entity>
+      </a-entity>
 ```
 
-This will position the particle system at `0 0 0`, the same place as the
-robot head. Feel free to tweak the parameters to adjust the effect to your liking. The
-particle component docs have lots of options. *link*
+This will position the particle system at `0 0.7 0`, which is the top of the robot head. 
+Feel free to tweak the parameters to adjust the effect to your liking. The
+particle component docs have [lots of options](https://github.com/IdeaSpaceVR/aframe-particle-system-component).
 
 Now we will use the `proximity` component to detect when the camera is close to the 
 robot head. This component fires an event when a target object enters or leaves the range
@@ -133,40 +157,32 @@ of the main object. Import the provided `proximity.js` in the head of your page:
     <script src="../resources/proximity.js"></script>
 ``` 
 
-Add the `proximity` component to the robot head.
+Add the `proximity` component to the robot entity.
 
 ```html
-    <a-entity id='head'
-              gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
-              position="0 1 -2"
-              follow="target:#mycamera"
-              proximity="target:#mycamera; distance:2"
-              visible="false"
-    ></a-entity>
+      <a-entity id="robot" 
+                visible="false"
+                proximity="target:#mycamera; distance:1.5"
+                >
+          ....
 ```
 
-Again the target is the `#mycamera`. Also note the distance is set to 2. You can adjust this value
+Again the target is the `#mycamera`. Also note the distance is set to `1.5`. You can adjust this value
 to make the user have to get closer or further away to trigger the effect.
 
 In a script tag at the bottom of your page, add two listeners for the `enter` and `exit` events. These
-will turn the particle effect on and off. *this code will be cleaner when the patches are accepted*
+will turn the particle effect on and off.
 
 ```javascript
-    function stopParticles() {
-        const particleEntity = document.querySelector('[particle-system]');
-        particleEntity.components['particle-system'].particleGroup.emitters[0].disable();
-    }
-    function startParticles() {
-        const particleEntity = document.querySelector('[particle-system]');
-        particleEntity.components['particle-system'].particleGroup.emitters[0].enable();
-    }
-
-    const head = document.querySelector('#head');
-    head.addEventListener('enter',()=> startParticles());
-    head.addEventListener('exit',()=> stopParticles());
-    document.querySelector('a-scene').addEventListener('loaded', () =>  stopParticles())
+    const robot = document.querySelector('#robot');
+    const stars = document.querySelector('#stars');
+    robot.addEventListener('enter',()=> stars.setAttribute("particle-system","enabled",true));
+    robot.addEventListener('exit', ()=> stars.setAttribute("particle-system","enabled",false));
 ```
 
 
-Now if you run the program the robot head will turn to follow you and shoot stars when you get to close.
+Now if you run the program the robot head will turn to follow you and shoot stars when you get too close.
+
+
+After you are done with this section, you may continue to [section 3](../part3/instructions.md).
 
