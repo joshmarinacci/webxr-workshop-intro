@@ -11,7 +11,7 @@ Open this web page on your computer:
 
 You will see a simple 3D scene containing a cube and a plane. 
 
-Now go to this webpage to see the source.
+Now open this webpage in a new tab to see the source. (you'll want to flip between the code and these instructions).
 
 [https://glitch.com/edit/#!/webxr-workshop-test1?path=start.html](https://glitch.com/edit/#!/webxr-workshop-test1?path=start.html)
 
@@ -81,7 +81,9 @@ of your file with these:
 ```
 
 Note that the patch will not work without the `window.debug` line placed *before* the 
-code imports.
+code imports. This lets aframe-xr.js patch certain parts of aframe to enable WebXR. 
+Eventually WebXR will be integrated directly into AFrame and these patches will no longer
+be needed.
 
 Since we want the camera view of reality to be visible, remove the sky and 
 plane elements from the scene. This leaves only the cube.
