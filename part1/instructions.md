@@ -3,14 +3,32 @@
 In part 1 of this workshop you will modify a standard A-Frame
 scene to make it work in Augmented Reality.
 
+## View an existing scene
+
+Open this web page on your computer:
+
+[https://webxr-workshop-test1.glitch.me/start.html](https://webxr-workshop-test1.glitch.me/start.html)
+
+You will see a simple 3D scene containing a cube and a plane. 
+
+Now go to this webpage to see the source.
+
+[https://glitch.com/edit/#!/webxr-workshop-test1?path=start.html](https://glitch.com/edit/#!/webxr-workshop-test1?path=start.html)
+
+
 ## Create initial scene
 
-If you haven't already, check out the code for this workshop on github, or download
-a copy. You should also have the XRViewer iOS app for ARCoreOnARCore Android app 
-installed on your mobile device.  
+Edit the [glitch page](https://glitch.com/edit/#!/webxr-workshop-test1?path=start.html:4:7) directly. 
+As soon as you try to modify the page Glitch will create a remix (fork) giving you your own copy to go through the workshop.
 
-Open the existing part1/start.html file or create a new one with these
-contents:
+You should also have the [XRViewer](https://itunes.apple.com/us/app/webxr-viewer/id1295998056?ls=1&mt=8) iOS app 
+or [WebAROnARCore](https://github.com/google-ar/WebARonARCore) Android app  
+installed on your mobile device.  You could also edit everything locally by checking out this repo,
+but I highly suggest you use glitch because you will
+later need your content hosted on an https compatible webserver, otherwise the mobile apps will have problems.
+ 
+
+Open the existing start.html file:
 
 ``` html
 <html>
@@ -48,7 +66,7 @@ While elements have default components specified by the library, you can create 
 add your own components which define new appearance or behavior. We will use
 some custom components later on in this workshop.
 
- 
+
 
 ## importing WebXR support
 
@@ -58,8 +76,8 @@ of your file with these:
 
 ```html
     <script>window.debug = true;</script>
-    <script src="https://rawgit.com/blairmacintyre/aframe-xr/master/vendor/aframe-v0.7.1.js"></script>
-    <script src="https://rawgit.com/arturitu/aframe-xr/master/dist/aframe-xr.js"></script>
+    <script src="https://rawgit.com/mozilla/aframe-xr/master/vendor/aframe-v0.7.1.js"></script>
+    <script src="https://rawgit.com/mozilla/aframe-xr/master/dist/aframe-xr.js"></script>
 ```
 
 Note that the patch will not work without the `window.debug` line placed *before* the 
@@ -174,5 +192,9 @@ add a directional light to cast a shadow
 ```
 
 Now the cube will be brighter on the left side than the right.
+
+
+Install XR Viewer (iOS) or WebAROnARCore (Android) to your device.  Once installed, open up this page in the app:
+
 
 When you are done you can continue to [part 2](../part2/instructions.md)
