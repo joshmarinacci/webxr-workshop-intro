@@ -45,8 +45,9 @@ Open the existing start.html file:
 </html>
 ```
 
-Load this in the viewer app on your mobile device.  You should see a
-scene containing a box and a plane, with a nice background.
+After you make the changes press the 'show' button to see your application running.
+Load this page in the viewer app on your mobile device.  You should see a
+scene containing a box and a plane, with a nice background, just as you do on the desktop.  
 
 ## A short introduction to a-frame
 
@@ -68,7 +69,7 @@ some custom components later on in this workshop.
 
 
 
-## importing WebXR support
+## Add WebXR and Remove the Sky  
 
 WebXR is a new (experimental) spec for Augmented Reality. We have created a special 
 patch to A-Frame to support it.  Add the patch by replacing the `script` tag at the top
@@ -81,12 +82,12 @@ of your file with these:
 ```
 
 Note that the patch will not work without the `window.debug` line placed *before* the 
-code imports. This lets aframe-xr.js patch certain parts of aframe to enable WebXR. 
+code imports. This lets `aframe-xr.js` patch certain parts of A-Frame to enable WebXR. 
 Eventually WebXR will be integrated directly into AFrame and these patches will no longer
 be needed.
 
-Since we want the camera view of reality to be visible, remove the sky and 
-plane elements from the scene. This leaves only the cube.
+Since we want the camera view of reality to be visible, __remove the sky and 
+plane elements from the scene__. This leaves only the cube.
 
 ## anchoring the cube
 
@@ -145,7 +146,7 @@ in the event handler with `obj.setAttribute('visible','true')`.  The final
 box code looks like this:
 
 ```html
-    <a-box id='obj'
+    <a-box id="obj"
            position="0 0 0"
            rotation="0 0 0"
            width="0.2"
@@ -194,9 +195,5 @@ add a directional light to cast a shadow
 ```
 
 Now the cube will be brighter on the left side than the right.
-
-
-Install XR Viewer (iOS) or WebAROnARCore (Android) to your device.  Once installed, open up this page in the app:
-
 
 When you are done you can continue to [part 2](../part2/instructions.md)

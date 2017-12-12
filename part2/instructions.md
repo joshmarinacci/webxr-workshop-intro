@@ -58,6 +58,7 @@ of the head so it appears above the body, and the body floats above the ground.
                   scale="2 2 2"
                   gltf-model="src:url(https://cdn.glitch.com/a56922f6-eed8-463f-83ab-cbfbe3b35da3%2FBot_Body_Mesh.glb?1512591235720)"
                   ></a-entity>      
+     </a-entity>
 ```
 
 Also remember to update the event handler to look for `#robot` instead of `#obj`. You should 
