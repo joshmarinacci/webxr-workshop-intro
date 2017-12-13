@@ -80,7 +80,7 @@ on the floor for them to hit. Add a floor plane to the scene like this:
 ```html
     <a-entity id="robot" 
         ...
-        <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" static-body></a-plane>
+        <a-plane position="0 -2 0" rotation="-90 0 0" width="4" height="4" static-body></a-plane>
 ```
 
 Note that the plane has the `static-body` component instead of `dynamic-body`. This is because
