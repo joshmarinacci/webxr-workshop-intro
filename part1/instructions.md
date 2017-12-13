@@ -7,7 +7,7 @@ scene to make it work in Augmented Reality.
 
 Open this web page on your computer:
 
-[https://webxr-workshop-test1.glitch.me/start.html](https://webxr-workshop-test1.glitch.me/start.html)
+[https://webxr-workshop-test1.glitch.me/](https://webxr-workshop-test1.glitch.me/)
 
 You will see a simple 3D scene containing a cube and a plane. 
 
