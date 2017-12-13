@@ -110,19 +110,9 @@ Now we can use this new `follow` component by adding one more line to the head d
 
 ```html
     <a-entity id="head"
-              follow="target:#mycamera"
+              follow="target:[camera]"
               ....
     ></a-entity>
-```
-
-
-Since the component needs a target we must manually define a camera instead of using
-the default one created by a-frame. (is there a way to avoid this?)
-
-```html
-    <a-entity id="mycamera"
-              camera="userHeight:1.6"
-              look-controls wasd-controls></a-entity>
 ```
 
 # Particle Effect
