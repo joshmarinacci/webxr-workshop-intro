@@ -46,8 +46,8 @@ Open the existing start.html file:
 ```
 
 After you make the changes press the 'show' button to see your application running.
-Load this page in the viewer app on your mobile device.  You should see a
-scene containing a box and a plane, with a nice background, just as you do on the desktop.  
+Now load this same preview page __in the viewer app on your mobile device__.  You should see a
+scene containing a box and a plane, with a nice background, on your phone, just as you do on the desktop.  
 
 ## A short introduction to a-frame
 

@@ -28,12 +28,14 @@ page with `a-entity` and set the id to `head`, the position to `0 0 0`, and visi
 
 You can think of `a-entity` as the generic version of a box. It is simply an object in 3D space which
 can have any geometry, appearance, or behavior. By itself an entity has no appearance, so let's
-give it one. Load the model by adding a `gltf-model` component which sets the src 
-to `url(../resources/Bot_Head_mesh.glb)`
+give it one. Load the model by adding a `gltf-model` component which sets the src for a model
+to load. In your glitch select the *assets* section, and click on the `Bot_Head_Mesh.glb` file. Glitch
+will give you a long URL to the glitch.com CDN. This is the URL for the model that you should paste in below.
+ 
 
 ```html
     <a-entity id="head"
-              gltf-model="src:url(../resources/Bot_Head_Mesh.glb)"
+              gltf-model="src:url(*** your long glitch url here ***)"
               position="0 0 0"
               visible="false"
      ></a-entity>
