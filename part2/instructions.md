@@ -118,7 +118,7 @@ Since the component needs a target we must manually define a camera instead of u
 the default one created by a-frame. (is there a way to avoid this?)
 
 ```html
-    <a-entity id='mycamera'
+    <a-entity id="mycamera"
               camera="userHeight:1.6"
               look-controls wasd-controls></a-entity>
 ```
